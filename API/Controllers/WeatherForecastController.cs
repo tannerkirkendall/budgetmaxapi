@@ -26,7 +26,7 @@ public class WeatherForecastController : ControllerBase
     public IEnumerable<WeatherForecast> Get()
     {
 
-        var user = _repo.GetAppUserByEmail("tan").Result.ToList();
+        //var user = _repo.GetAppUserByEmail("tan").Result.ToList();
         
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
