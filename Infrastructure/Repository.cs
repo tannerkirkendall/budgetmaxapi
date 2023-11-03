@@ -18,7 +18,7 @@ public class Repository : IRepository, IDisposable
     
     public Repository(IConfiguration config)
     {
-        _connectionString = config.GetSection("ConnectionStrings:DefaultConnection").Value;
+        _connectionString = config.GetConnectionString("DefaultConnection");
     }
     
     public async Task<IEnumerable<AppUser>> GetAppUserByEmail(string email)
