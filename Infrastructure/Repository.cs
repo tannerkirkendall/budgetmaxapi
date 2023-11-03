@@ -24,7 +24,7 @@ public class Repository : IRepository, IDisposable
     public async Task<IEnumerable<AppUser>> GetAppUserByEmail(string email)
     {
         Open();
-        var appUser = await _dbConn.QueryAsync<AppUser>("SELECT * FROM AppUsers where email = 'tannerkirkendall@gmail.com'");
+        var appUser = await _dbConn.QueryAsync<AppUser>("SELECT email FROM AppUsers where UserId = 1");
         return appUser;
     }
     
