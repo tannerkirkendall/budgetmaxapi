@@ -13,30 +13,31 @@ public interface IRepository
 
 public class Repository : IRepository, IDisposable
 {
-    private IDbConnection? _dbConn;
-    private readonly string _connectionString;
-    
+    private readonly IDbConnection _dbConn;
+
     public Repository(IConfiguration config)
     {
-        _connectionString = config.GetConnectionString("DefaultConnection");
+        _dbConn = new SqlConnection(config.GetConnectionString("DefaultConnection"));
     }
     
     public async Task<IEnumerable<AppUser>> GetAppUserByEmail(string email)
     {
         Open();
-        var appUser = await _dbConn.QueryAsync<AppUser>("SELECT email FROM AppUsers where UserId = 1");
+        var param = new Dictionary<string, object> {{"email", email}};
+        var appUser = await _dbConn.QueryAsync<AppUser>(
+            "SELECT UserId, AccountId, FirstName, HashedPassword, AccountEnabled, Email FROM AppUsers where email = @email", 
+            param=param);
         return appUser;
     }
     
     private void Open()
     {
-        _dbConn ??= new SqlConnection(_connectionString);
         if (_dbConn.State != ConnectionState.Open)
             _dbConn.Open();
     }
-    
+
     public void Dispose()
     {
-        _dbConn?.Dispose();
+        _dbConn.Dispose();
     }
 }

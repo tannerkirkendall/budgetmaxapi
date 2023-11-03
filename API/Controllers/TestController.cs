@@ -1,4 +1,5 @@
 
+using Domain;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,11 +20,11 @@ public class TestController : ControllerBase
     }
 
     [HttpGet(Name = "GetName")]
-    public string Get()
+    public AppUser Get()
     {
 
-        var user = _repo.GetAppUserByEmail("tan").Result.FirstOrDefault();
+        var user = _repo.GetAppUserByEmail("tannerkirkendall@gmail.com").Result.FirstOrDefault();
 
-        return user?.Email ?? "No Email";
+        return user ?? new AppUser();
     }
 }
