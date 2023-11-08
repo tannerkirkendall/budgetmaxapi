@@ -1,8 +1,8 @@
 ﻿using System.Data;
-using System.Data.SqlClient;
 using Dapper;
 using Domain;
 using Microsoft.Extensions.Configuration;
+using MySqlConnector;
 
 namespace Infrastructure;
 
@@ -13,18 +13,20 @@ public interface IRepository
 
 public class Repository : IRepository, IDisposable
 {
-    private readonly IDbConnection _dbConn;
+    private readonly MySqlConnection _sql;
 
     public Repository(IConfiguration config)
     {
-        _dbConn = new SqlConnection(config.GetConnectionString("DefaultConnection"));
+        var a = new MySqlConnection();
+        a.ConnectionString = config.GetConnectionString("MySqlConnection");
+        _sql = a;
     }
     
     public async Task<IEnumerable<AppUser>> GetAppUserByEmail(string email)
     {
         Open();
         var param = new Dictionary<string, object> {{"email", email}};
-        var appUser = await _dbConn.QueryAsync<AppUser>(
+        var appUser = await _sql.QueryAsync<AppUser>(
             "SELECT UserId, AccountId, FirstName, HashedPassword, AccountEnabled, Email FROM AppUsers where email = @email", 
             param=param);
         return appUser;
@@ -32,12 +34,12 @@ public class Repository : IRepository, IDisposable
     
     private void Open()
     {
-        if (_dbConn.State != ConnectionState.Open)
-            _dbConn.Open();
+        if (_sql.State != ConnectionState.Open)
+            _sql.Open();
     }
 
     public void Dispose()
     {
-        _dbConn.Dispose();
+       _sql.Dispose();
     }
 }

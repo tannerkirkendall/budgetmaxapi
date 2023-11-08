@@ -20,10 +20,10 @@ public class TestController : ControllerBase
     }
 
     [HttpGet(Name = "GetName")]
-    public AppUser Get()
+    public AppUser Get(string email)
     {
 
-        var user = _repo.GetAppUserByEmail("tannerkirkendall@gmail.com").Result.FirstOrDefault();
+        var user = _repo.GetAppUserByEmail(email).Result.FirstOrDefault();
 
         return user ?? new AppUser();
     }
