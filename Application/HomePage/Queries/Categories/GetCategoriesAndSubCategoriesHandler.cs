@@ -21,14 +21,15 @@ public class GetCategoriesAndSubCategoriesHandler : IRequestHandler<GetCategorie
         var returnObject = new GetCategoriesAndSubCategoriesResult();
         foreach (var c in categories)
         {
-            var thisSubCats = subCategoriesList.Where(x => x.CategoryId == c.CategoryId);
-            var ddd = thisSubCats.Select(sc => new GetCategoriesAndSubCategoriesResult.SubCategory {Id = sc.SubCategoryId, Name = sc.SubCategoryName}).ToList();
+            var thisSubCats = subCategoriesList
+                .Where(x => x.CategoryId == c.CategoryId)
+                .Select(sc => new GetCategoriesAndSubCategoriesResult.SubCategory {Id = sc.SubCategoryId, Name = sc.SubCategoryName}).ToList();
 
             var cat = new GetCategoriesAndSubCategoriesResult.Category
             {
                 Id = c.CategoryId,
                 Name = c.CategoryName,
-                SubCategories = ddd
+                SubCategories = thisSubCats
             };
             returnObject.Categories.Add(cat);
         }

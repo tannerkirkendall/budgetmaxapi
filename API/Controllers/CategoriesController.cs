@@ -15,7 +15,7 @@ public class CategoriesController : ApiControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "GetCategories")]
+    [HttpGet("all")]
     public async Task<IActionResult> GetCategories(int accountId)
     {
         try
