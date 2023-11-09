@@ -9,6 +9,8 @@ namespace Infrastructure;
 public interface IRepository
 {
     public Task<IEnumerable<AppUser>> GetAppUserByEmail(string email);
+    Task<IEnumerable<Category>> GetCategoriesByAccountId(int accountId);
+    Task<IEnumerable<SubCategory>> GetSubCategoriesByAccountId(int accountId);
 }
 
 public class Repository : IRepository, IDisposable
@@ -28,6 +30,26 @@ public class Repository : IRepository, IDisposable
         var param = new Dictionary<string, object> {{"email", email}};
         var appUser = await _sql.QueryAsync<AppUser>(
             "SELECT UserId, AccountId, FirstName, HashedPassword, AccountEnabled, Email FROM AppUsers where email = @email", 
+            param=param);
+        return appUser;
+    }
+    
+    public async Task<IEnumerable<Category>> GetCategoriesByAccountId(int accountId)
+    {
+        Open();
+        var param = new Dictionary<string, object> {{"AccountId", accountId}};
+        var appUser = await _sql.QueryAsync<Category>(
+            "SELECT CategoryId, CategoryName FROM categories where AccountId = @accountId", 
+            param=param);
+        return appUser;
+    }
+    
+    public async Task<IEnumerable<SubCategory>> GetSubCategoriesByAccountId(int accountId)
+    {
+        Open();
+        var param = new Dictionary<string, object> {{"AccountId", accountId}};
+        var appUser = await _sql.QueryAsync<SubCategory>(
+            "SELECT SubCategoryId, CategoryId, SubCategoryName FROM subcategories where AccountId = @accountId", 
             param=param);
         return appUser;
     }
