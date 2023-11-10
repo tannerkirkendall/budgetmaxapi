@@ -1,9 +1,7 @@
 using Application.HomePage.Queries.Categories;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
-
 
 [ApiController]
 [Route("api/[controller]")]
@@ -18,11 +16,11 @@ public class CategoriesController : ApiControllerBase
     }
 
     [HttpGet("all")]
-    public async Task<IActionResult> GetCategories(int accountId)
+    public async Task<IActionResult> GetCategories()
     {
         try
         {
-            var returnValue = await Mediator.Send(new GetCategoriesAndSubCategoriesRequest(accountId));
+            var returnValue = await Mediator.Send(new GetCategoriesAndSubCategoriesRequest());
             return Ok(returnValue);
         }
         catch (Exception e)

@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using Application.Interfaces;
+using Infrastructure;
 using MediatR;
 
 namespace Application.HomePage.Queries.Categories;
@@ -6,16 +7,18 @@ namespace Application.HomePage.Queries.Categories;
 public class GetCategoriesAndSubCategoriesHandler : IRequestHandler<GetCategoriesAndSubCategoriesRequest, GetCategoriesAndSubCategoriesResult>
 {
     private readonly IRepository _repo;
+    private readonly ICurrentUserService _userService;
 
-    public GetCategoriesAndSubCategoriesHandler(IRepository repo)
+    public GetCategoriesAndSubCategoriesHandler(IRepository repo, ICurrentUserService userService)
     {
         _repo = repo;
+        _userService = userService;
     }
     
     public async Task<GetCategoriesAndSubCategoriesResult> Handle(GetCategoriesAndSubCategoriesRequest request, CancellationToken cancellationToken)
     {
-        var categories = await _repo.GetCategoriesByAccountId(request.AccountId);
-        var subCategories = await _repo.GetSubCategoriesByAccountId(request.AccountId);
+        var categories = await _repo.GetCategoriesByAccountId(_userService.AccountId);
+        var subCategories = await _repo.GetSubCategoriesByAccountId(_userService.AccountId);
         var subCategoriesList = subCategories.ToList();
 
         var returnObject = new GetCategoriesAndSubCategoriesResult();
@@ -40,11 +43,6 @@ public class GetCategoriesAndSubCategoriesHandler : IRequestHandler<GetCategorie
 
 public class GetCategoriesAndSubCategoriesRequest : IRequest<GetCategoriesAndSubCategoriesResult>
 {
-    public GetCategoriesAndSubCategoriesRequest(int accountId)
-    {
-        AccountId = accountId;
-    }
-    public int AccountId { get; }
 }
 
 public class GetCategoriesAndSubCategoriesResult
