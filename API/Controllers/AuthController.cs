@@ -22,9 +22,9 @@ public class AuthController : ApiControllerBase
     
     [AllowAnonymous]
     [HttpPost("login")]
-    public async Task<IActionResult> PostLoginForEmployee(string email, string password)
+    public async Task<IActionResult> PostLoginForEmployee([FromBody] ValidateEmailAndPasswordRequest request)
     {
-        var returnValue = await Mediator.Send(new ValidateEmailAndPasswordRequest(email, password));
+        var returnValue = await Mediator.Send(request);
         if (returnValue.Authenticated == false)
         {
             return Unauthorized();
@@ -35,7 +35,7 @@ public class AuthController : ApiControllerBase
         {
             Subject = new ClaimsIdentity(new[]
             {
-                new Claim("email", email),
+                new Claim("email", request.Email),
                 new Claim("accountId", returnValue.AccountId.ToString()),
                 new Claim("userId", returnValue.UserId.ToString())
             }),
