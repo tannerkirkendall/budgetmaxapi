@@ -11,6 +11,7 @@ public interface IRepository
     public Task<IEnumerable<AppUser>> GetAppUserByEmail(string email);
     Task<IEnumerable<Category>> GetCategoriesByAccountId(int accountId);
     Task<IEnumerable<SubCategory>> GetSubCategoriesByAccountId(int accountId);
+    Task<IEnumerable<Transaction>> GetTransactionsByAccountId(int accountId);
 }
 
 public class Repository : IRepository, IDisposable
@@ -50,6 +51,17 @@ public class Repository : IRepository, IDisposable
         var param = new Dictionary<string, object> {{"AccountId", accountId}};
         var appUser = await _sql.QueryAsync<SubCategory>(
             "SELECT SubCategoryId, CategoryId, SubCategoryName FROM subcategories where AccountId = @accountId", 
+            param=param);
+        return appUser;
+    }
+    
+    public async Task<IEnumerable<Transaction>> GetTransactionsByAccountId(int accountId)
+    {
+        Open();
+        var param = new Dictionary<string, object> {{"AccountId", accountId}};
+        var appUser = await _sql.QueryAsync<Transaction>(
+            @"SELECT TransactionId, AccountId, BankAccount, TransactionDate, Amount, SubCategoryId, TransactionDescription 
+                FROM transactions; where AccountId = @accountId", 
             param=param);
         return appUser;
     }
