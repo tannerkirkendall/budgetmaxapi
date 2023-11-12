@@ -31,7 +31,7 @@ public class GetTransactionsHandler : IRequestHandler<GetTransactionsRequest, Ge
             {
                 TransactionId = tran.TransactionId,
                 BankAccount = tran.BankAccount,
-                TransactionDate = tran.TransactionDate,
+                TransactionDate = tran.TransactionDate.ToShortDateString(),
                 Amount = tran.Amount,
                 Category = cat?.CategoryName ?? "",
                 SubCategory = subCat?.SubCategoryName ?? "",
@@ -58,7 +58,7 @@ public class GetTransactionsResult
     {
         public int TransactionId { get; init; }
         public string BankAccount { get; init; } = "";
-        public DateTime TransactionDate { get; init; }
+        public string TransactionDate { get; init; } = "";
         public decimal Amount { get; init; }
         public string? Category { get; init; } 
         public string? SubCategory { get; init; } 
