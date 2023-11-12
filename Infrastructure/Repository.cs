@@ -31,7 +31,7 @@ public class Repository : IRepository, IDisposable
         var param = new Dictionary<string, object> {{"email", email}};
         var appUser = await _sql.QueryAsync<AppUser>(
             "SELECT UserId, AccountId, FirstName, HashedPassword, AccountEnabled, Email FROM AppUsers where email = @email", 
-            param=param);
+            param);
         return appUser;
     }
     
@@ -41,7 +41,7 @@ public class Repository : IRepository, IDisposable
         var param = new Dictionary<string, object> {{"AccountId", accountId}};
         var appUser = await _sql.QueryAsync<Category>(
             "SELECT CategoryId, CategoryName FROM categories where AccountId = @accountId", 
-            param=param);
+            param);
         return appUser;
     }
     
@@ -51,7 +51,7 @@ public class Repository : IRepository, IDisposable
         var param = new Dictionary<string, object> {{"AccountId", accountId}};
         var appUser = await _sql.QueryAsync<SubCategory>(
             "SELECT SubCategoryId, CategoryId, SubCategoryName FROM subcategories where AccountId = @accountId", 
-            param=param);
+            param);
         return appUser;
     }
     
@@ -61,8 +61,8 @@ public class Repository : IRepository, IDisposable
         var param = new Dictionary<string, object> {{"AccountId", accountId}};
         var appUser = await _sql.QueryAsync<Transaction>(
             @"SELECT TransactionId, AccountId, BankAccount, TransactionDate, Amount, SubCategoryId, TransactionDescription 
-                FROM transactions; where AccountId = @accountId", 
-            param=param);
+                FROM transactions where AccountId = @accountId", 
+            param);
         return appUser;
     }
     
