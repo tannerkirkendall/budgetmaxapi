@@ -12,6 +12,7 @@ public interface IRepository
     Task<IEnumerable<Category>> GetCategoriesByAccountId(int accountId);
     Task<IEnumerable<SubCategory>> GetSubCategoriesByAccountId(int accountId);
     Task<IEnumerable<Transaction>> GetTransactionsByAccountId(int accountId);
+    Task<IEnumerable<Transaction>> GetTransactionsByAccountId(int accountId, DateOnly startDate, DateOnly endDate);
 }
 
 public class Repository : IRepository, IDisposable
@@ -62,6 +63,21 @@ public class Repository : IRepository, IDisposable
         var appUser = await _sql.QueryAsync<Transaction>(
             @"SELECT TransactionId, AccountId, BankAccount, TransactionDate, Amount, SubCategoryId, TransactionDescription 
                 FROM transactions where AccountId = @accountId", 
+            param);
+        return appUser;
+    }
+    
+    public async Task<IEnumerable<Transaction>> GetTransactionsByAccountId(int accountId, DateOnly startDate, DateOnly endDate)
+    {
+        var startDateFormat = startDate.ToString("yyyy-MM-dd");
+        var endDateFormat = endDate.ToString("yyyy-MM-dd");
+        Open();
+        var param = new Dictionary<string, object> {{"AccountId", accountId}, {"StartDate", startDateFormat}, {"EndDate", endDateFormat}};
+        var appUser = await _sql.QueryAsync<Transaction>(
+            @"SELECT TransactionId, AccountId, BankAccount, TransactionDate, Amount, SubCategoryId, TransactionDescription 
+                FROM transactions 
+                where AccountId = @accountId 
+                and TransactionDate between @startDate and @endDate", 
             param);
         return appUser;
     }

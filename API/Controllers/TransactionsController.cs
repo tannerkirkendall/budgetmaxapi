@@ -29,4 +29,19 @@ public class TransactionsController : ApiControllerBase
             return BadRequest(e);
         }
     }
+    
+    [HttpGet("summary")]
+    public async Task<IActionResult> GetSummary()
+    {
+        try
+        {
+            var returnValue = await Mediator.Send(new GetSummaryByDateRangeRequest(DateOnly.Parse("2023-10-01"), DateOnly.Parse("2023-10-31")));
+            return Ok(returnValue);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
+            return BadRequest(e);
+        }
+    }
 }
