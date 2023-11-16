@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces;
-using Infrastructure;
 using MediatR;
 
 namespace Application.HomePage.Queries.Transactions;

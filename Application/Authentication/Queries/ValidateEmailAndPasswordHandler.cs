@@ -1,5 +1,5 @@
 ﻿using Application.Helpers;
-using Infrastructure;
+using Application.Interfaces;
 using MediatR;
 
 namespace Application.Authentication.Queries;

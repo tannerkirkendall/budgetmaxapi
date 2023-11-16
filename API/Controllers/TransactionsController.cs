@@ -31,11 +31,11 @@ public class TransactionsController : ApiControllerBase
     }
     
     [HttpGet("summary")]
-    public async Task<IActionResult> GetSummary()
+    public async Task<IActionResult> GetSummary(int budgetHeaderId)
     {
         try
         {
-            var returnValue = await Mediator.Send(new GetSummaryByDateRangeRequest(DateOnly.Parse("2023-10-01"), DateOnly.Parse("2023-10-31")));
+            var returnValue = await Mediator.Send(new GetSummaryByBudgetHeaderId.Request(budgetHeaderId));
             return Ok(returnValue);
         }
         catch (Exception e)

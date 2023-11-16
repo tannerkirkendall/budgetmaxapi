@@ -3,17 +3,10 @@ using Dapper;
 using Domain;
 using Microsoft.Extensions.Configuration;
 using MySqlConnector;
-
+using Application.Interfaces;
 namespace Infrastructure;
 
-public interface IRepository
-{
-    public Task<IEnumerable<AppUser>> GetAppUserByEmail(string email);
-    Task<IEnumerable<Category>> GetCategoriesByAccountId(int accountId);
-    Task<IEnumerable<SubCategory>> GetSubCategoriesByAccountId(int accountId);
-    Task<IEnumerable<Transaction>> GetTransactionsByAccountId(int accountId);
-    Task<IEnumerable<Transaction>> GetTransactionsByAccountId(int accountId, DateOnly startDate, DateOnly endDate);
-}
+
 
 public class Repository : IRepository, IDisposable
 {
@@ -67,7 +60,7 @@ public class Repository : IRepository, IDisposable
         return appUser;
     }
     
-    public async Task<IEnumerable<Transaction>> GetTransactionsByAccountId(int accountId, DateOnly startDate, DateOnly endDate)
+    public async Task<IEnumerable<Transaction>> GetTransactionsByAccountId(int accountId, DateTime startDate, DateTime endDate)
     {
         var startDateFormat = startDate.ToString("yyyy-MM-dd");
         var endDateFormat = endDate.ToString("yyyy-MM-dd");
@@ -78,6 +71,30 @@ public class Repository : IRepository, IDisposable
                 FROM transactions 
                 where AccountId = @accountId 
                 and TransactionDate between @startDate and @endDate", 
+            param);
+        return appUser;
+    }
+    public async Task<IEnumerable<BudgetHeader>> GetBudgetHeader(int accountId, int budgetHeaderId)
+    {
+        Open();
+        var param = new Dictionary<string, object> {{"AccountId", accountId}, {"BudgetHeaderId", budgetHeaderId}};
+        var appUser = await _sql.QueryAsync<BudgetHeader>(
+            @"SELECT BudgetHeaderId, AccountId, StartDate, EndDate
+                FROM budgetheader
+                where AccountId = @accountId 
+                and BudgetHeaderId = @budgetHeaderId", 
+            param);
+        return appUser;
+    }
+    public async Task<IEnumerable<BudgetDetail>> GetBudgetDetails(int accountId, int budgetHeaderId)
+    {
+        Open();
+        var param = new Dictionary<string, object> {{"AccountId", accountId}, {"BudgetHeaderId", budgetHeaderId}};
+        var appUser = await _sql.QueryAsync<BudgetDetail>(
+            @"SELECT BudgetDetailId, AccountId, BudgetHeaderId, SubCategoryId, Amount
+                FROM budgetdetails
+                where AccountId = @accountId 
+                and BudgetHeaderId = @budgetHeaderId", 
             param);
         return appUser;
     }
