@@ -23,8 +23,60 @@ public abstract class GetSummaryByBudgetHeaderId
             var budgetHeader = (await _repo.GetBudgetHeader(_user.AccountId, request.BudgetHeaderId)).First();
             var budgetDetails = (await _repo.GetBudgetDetails(_user.AccountId, request.BudgetHeaderId)).ToList();
             var transactions = (await _repo.GetTransactionsByAccountId(_user.AccountId, budgetHeader.StartDate, budgetHeader.EndDate)).ToList();
+            var subCategories = (await _repo.GetSubCategoriesByAccountId(_user.AccountId)).ToList();
+            var categories = (await _repo.GetCategoriesByAccountId(_user.AccountId)).ToList();
+
+            var result = new Result();
             
-            return new Result();
+            foreach (var transaction in transactions)
+            {
+                var subCat = subCategories.FirstOrDefault(x => x.SubCategoryId == transaction.SubCategoryId);
+                var cat = categories.FirstOrDefault(x => x.CategoryId == subCat?.CategoryId);
+
+                result.NetTotal += transaction.Amount;
+                var loopCat = result.Summary.FirstOrDefault(x => x.CategoryId == cat.CategoryId);
+                if (loopCat == null)
+                {
+                    result.Summary.Add(new Result.CategoryRoll
+                    {
+                        CategoryId = cat.CategoryId,
+                        Category = cat.CategoryName,
+                        NetCategoryTotal = transaction.Amount,
+                        SubCategories = new List<Result.SubCategoryRoll>
+                        {
+                            new Result.SubCategoryRoll
+                            {
+                                SubCategoryId = transaction.SubCategoryId,
+                                SubCategory = subCat.SubCategoryName,
+                                NetSubCategoryTotal = transaction.Amount,
+                                Transactions = new List<Result.Transaction> {new(transaction)}
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    loopCat.NetCategoryTotal += transaction.Amount;
+                    var loopSubCat = loopCat.SubCategories.FirstOrDefault(x => x.SubCategoryId == transaction.SubCategoryId);
+                    if (loopSubCat == null)
+                    {
+                        loopCat.SubCategories.Add(new Result.SubCategoryRoll
+                        {
+                            SubCategoryId = transaction.SubCategoryId,
+                            SubCategory = subCat.SubCategoryName,
+                            NetSubCategoryTotal = transaction.Amount,
+                            Transactions = new List<Result.Transaction> {new(transaction)}
+
+                        });
+                    }
+                    else
+                    {
+                        loopSubCat.NetSubCategoryTotal += transaction.Amount;
+                        loopSubCat.Transactions.Add(new Result.Transaction(transaction));
+                    }
+                }
+            }
+            return result;
         }
     }
 
@@ -40,14 +92,14 @@ public abstract class GetSummaryByBudgetHeaderId
 
     public class Result
     {
-        public decimal Amount { get; set; }
+        public decimal NetTotal { get; set; }
         public List<CategoryRoll> Summary { get; set; } = new();
 
         public class CategoryRoll
         {
             public int CategoryId { get; init; }
             public string? Category { get; init; }
-            public decimal Amount { get; set; }
+            public decimal NetCategoryTotal { get; set; }
             public List<SubCategoryRoll> SubCategories { get; init; } = new();
         }
 
@@ -55,17 +107,25 @@ public abstract class GetSummaryByBudgetHeaderId
         {
             public string? SubCategory { get; init; }
             public int SubCategoryId { get; init; }
-            public decimal Amount { get; set; }
+            public decimal NetSubCategoryTotal { get; set; }
             public List<Transaction> Transactions { get; set; } = new();
         }
 
         public class Transaction
         {
-            public int TransactionId { get; init; }
-            public string BankAccount { get; init; } = "";
-            public DateTime TransactionDate { get; init; }
-            public decimal Amount { get; init; }
-            public string? TransactionDescription { get; init; }
+            public Transaction(Domain.Transaction tran)
+            {
+                TransactionId = tran.TransactionId;
+                BankAccount = tran.BankAccount;
+                TransactionDescription = tran.TransactionDescription;
+                Amount = tran.Amount;
+                TransactionDate = tran.TransactionDate;
+            }
+            public int TransactionId { get; }
+            public string BankAccount { get; }
+            public DateTime TransactionDate { get; }
+            public decimal Amount { get; }
+            public string? TransactionDescription { get; }
         }
     }
 }
