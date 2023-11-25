@@ -34,7 +34,7 @@ public class Repository : IRepository, IDisposable
         Open();
         var param = new Dictionary<string, object> {{"AccountId", accountId}};
         var appUser = await _sql.QueryAsync<Category>(
-            "SELECT CategoryId, CategoryName FROM categories where AccountId = @accountId", 
+            "SELECT CategoryId, CategoryName, CategoryTypeId FROM categories where AccountId = @accountId", 
             param);
         return appUser;
     }

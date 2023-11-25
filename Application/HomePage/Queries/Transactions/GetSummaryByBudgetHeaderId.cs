@@ -27,28 +27,35 @@ public abstract class GetSummaryByBudgetHeaderId
             var categories = (await _repo.GetCategoriesByAccountId(_user.AccountId)).ToList();
 
             var result = new Result();
+
+            result.BudgetStart = budgetHeader.StartDate;
+            result.BudgetEnd = budgetHeader.EndDate;
             
             foreach (var transaction in transactions)
             {
                 var subCat = subCategories.FirstOrDefault(x => x.SubCategoryId == transaction.SubCategoryId);
                 var cat = categories.FirstOrDefault(x => x.CategoryId == subCat?.CategoryId);
-
+                var budgetDetail = budgetDetails.FirstOrDefault(x => x.SubCategoryId == transaction.SubCategoryId);
+                
                 result.NetTotal += transaction.Amount;
                 var loopCat = result.Summary.FirstOrDefault(x => x.CategoryId == cat.CategoryId);
                 if (loopCat == null)
                 {
                     result.Summary.Add(new Result.CategoryRoll
                     {
-                        CategoryId = cat.CategoryId,
-                        Category = cat.CategoryName,
+                        CategoryId = cat?.CategoryId ?? 0,
+                        Category = cat?.CategoryName ?? "none",
+                        CategoryTypeId = cat?.CategoryTypeId ?? 0,
                         NetCategoryTotal = transaction.Amount,
                         SubCategories = new List<Result.SubCategoryRoll>
                         {
-                            new Result.SubCategoryRoll
+                            new()
                             {
                                 SubCategoryId = transaction.SubCategoryId,
-                                SubCategory = subCat.SubCategoryName,
+                                SubCategory = subCat?.SubCategoryName ?? "none",
                                 NetSubCategoryTotal = transaction.Amount,
+                                AmountBudgeted = budgetDetail?.Amount ?? 0,
+                                AmountBudgetedRemaining = (budgetDetail?.Amount ?? 0) + transaction.Amount,
                                 Transactions = new List<Result.Transaction> {new(transaction)}
                             }
                         }
@@ -63,8 +70,10 @@ public abstract class GetSummaryByBudgetHeaderId
                         loopCat.SubCategories.Add(new Result.SubCategoryRoll
                         {
                             SubCategoryId = transaction.SubCategoryId,
-                            SubCategory = subCat.SubCategoryName,
+                            SubCategory = subCat?.SubCategoryName ?? "none",
                             NetSubCategoryTotal = transaction.Amount,
+                            AmountBudgeted = budgetDetail?.Amount ?? 0,
+                            AmountBudgetedRemaining = (budgetDetail?.Amount ?? 0) + transaction.Amount,
                             Transactions = new List<Result.Transaction> {new(transaction)}
 
                         });
@@ -72,10 +81,31 @@ public abstract class GetSummaryByBudgetHeaderId
                     else
                     {
                         loopSubCat.NetSubCategoryTotal += transaction.Amount;
+                        loopSubCat.AmountBudgetedRemaining += transaction.Amount;
                         loopSubCat.Transactions.Add(new Result.Transaction(transaction));
                     }
                 }
             }
+
+            var totalBudgetIncome = Math.Abs(budgetDetails.Where(bd => bd.Amount < 0).Sum(bd => bd.Amount));
+            var totalBudgetSpend = budgetDetails.Where(bd => bd.Amount > 0).Sum(bd => bd.Amount);
+
+            result.TotalBudgetedIncome = totalBudgetIncome;
+            result.TotalBudgetedSpend = totalBudgetSpend;
+            result.TotalBudgetRemaining = totalBudgetIncome - totalBudgetSpend;
+            
+            decimal overBudgetSpent = 0;
+            foreach (var summary in result.Summary)
+            {
+                if (summary.CategoryTypeId == 1)
+                {
+                    overBudgetSpent += summary.SubCategories.Where(s => s.AmountBudgetedRemaining < 0).Sum(s => s.AmountBudgetedRemaining);
+                }
+            }
+
+            result.TotalOverBudgetSpending = overBudgetSpent;
+            result.TotalBudgetRemaining += overBudgetSpent;
+            
             return result;
         }
     }
@@ -92,7 +122,13 @@ public abstract class GetSummaryByBudgetHeaderId
 
     public class Result
     {
+        public DateTime BudgetStart { get; set; }
+        public DateTime BudgetEnd { get; set; }
         public decimal NetTotal { get; set; }
+        public decimal TotalBudgetedSpend { get; set; }
+        public decimal TotalBudgetedIncome { get; set; }
+        public decimal TotalBudgetRemaining { get; set; }
+        public decimal TotalOverBudgetSpending { get; set; }
         public List<CategoryRoll> Summary { get; set; } = new();
 
         public class CategoryRoll
@@ -100,6 +136,7 @@ public abstract class GetSummaryByBudgetHeaderId
             public int CategoryId { get; init; }
             public string? Category { get; init; }
             public decimal NetCategoryTotal { get; set; }
+            public int CategoryTypeId { get; set; }
             public List<SubCategoryRoll> SubCategories { get; init; } = new();
         }
 
@@ -108,6 +145,8 @@ public abstract class GetSummaryByBudgetHeaderId
             public string? SubCategory { get; init; }
             public int SubCategoryId { get; init; }
             public decimal NetSubCategoryTotal { get; set; }
+            public decimal AmountBudgeted { get; set; }
+            public decimal AmountBudgetedRemaining { get; set; }
             public List<Transaction> Transactions { get; set; } = new();
         }
 

@@ -46,13 +46,16 @@ public class TestGetSummary
         
         Assert.AreEqual(40, result.NetTotal);
         Assert.AreEqual(2, result.Summary.Count);
+        Assert.AreEqual(2, result.Summary.First(x => x.CategoryId == 2).CategoryTypeId);
         var categoryBills = result.Summary.Single(x => x.CategoryId == 1);
         Assert.AreEqual("Bills", categoryBills.Category);
         Assert.AreEqual(-60, categoryBills.NetCategoryTotal);
+        Assert.AreEqual(1, categoryBills.CategoryTypeId);
         Assert.AreEqual(2, categoryBills.SubCategories.Count);
         var billsWater = categoryBills.SubCategories.Single(y => y.SubCategoryId == 1);
         Assert.AreEqual("Water", billsWater.SubCategory);
-        Assert.AreEqual("Electric", categoryBills.SubCategories.Single(y => y.SubCategoryId == 2).SubCategory);
+        var billsElectric = categoryBills.SubCategories.Single(y => y.SubCategoryId == 2);
+        Assert.AreEqual("Electric", billsElectric.SubCategory);
         Assert.AreEqual(-40, billsWater.NetSubCategoryTotal);
         Assert.AreEqual(2, billsWater.Transactions.Count);
         Assert.AreEqual(-10, billsWater.Transactions.Single(x => x.TransactionId == 1).Amount);
@@ -64,6 +67,15 @@ public class TestGetSummary
         Assert.AreEqual("second water bill", billsWater.Transactions.Single(x => x.TransactionId == 4).TransactionDescription);
         Assert.AreEqual("Chase", billsWater.Transactions.Single(x => x.TransactionId == 4).BankAccount);
 
+        Assert.AreEqual(30, billsWater.AmountBudgeted);
+        Assert.AreEqual(-10, billsWater.AmountBudgetedRemaining);
+        
+        Assert.AreEqual(25, billsElectric.AmountBudgeted);
+        Assert.AreEqual(5, billsElectric.AmountBudgetedRemaining);
+
+        Assert.AreEqual(55, result.TotalBudgetedSpend);
+        Assert.AreEqual(200, result.TotalBudgetedIncome);
+        Assert.AreEqual(135, result.TotalBudgetRemaining);
     }
 
     private static List<Category> GetCategories()
@@ -73,12 +85,14 @@ public class TestGetSummary
             new()
             {
                 CategoryId = 1,
-                CategoryName = "Bills"
+                CategoryName = "Bills",
+                CategoryTypeId = 1
             },
             new()
             {
                 CategoryId = 2,
-                CategoryName = "Income"
+                CategoryName = "Income",
+                CategoryTypeId = 2
             }
         };
     }
@@ -104,6 +118,18 @@ public class TestGetSummary
                 CategoryId = 2,
                 SubCategoryId = 3,
                 SubCategoryName = "Paycheck"
+            },
+            new()
+            {
+                CategoryId = 1,
+                SubCategoryId = 4,
+                SubCategoryName = "Bill 4"
+            },
+            new()
+            {
+                CategoryId = 1,
+                SubCategoryId = 5,
+                SubCategoryName = "Bill 5"
             }
         };
     }
@@ -181,7 +207,23 @@ public class TestGetSummary
                 BudgetHeaderId = budgetHeaderId,
                 BudgetDetailId = 1,
                 SubCategoryId = 1,
-                Amount = 10
+                Amount = 30
+            },
+            new BudgetDetail
+            {
+                AccountId = accountId,
+                BudgetHeaderId = budgetHeaderId,
+                BudgetDetailId = 1,
+                SubCategoryId = 2,
+                Amount = 25
+            },
+            new BudgetDetail
+            {
+                AccountId = accountId,
+                BudgetHeaderId = budgetHeaderId,
+                BudgetDetailId = 1,
+                SubCategoryId = 3,
+                Amount = -200
             }
         };
         return budgetDetails;
