@@ -6,16 +6,16 @@ namespace Application.Authentication.Queries;
 
 public class ValidateEmailAndPasswordHandler: IRequestHandler<ValidateEmailAndPasswordRequest, ValidateEmailAndPasswordResult>
 {
-    private readonly IRepository _repo;
+    private readonly IAccountRepository _repo;
 
-    public ValidateEmailAndPasswordHandler(IRepository repo)
+    public ValidateEmailAndPasswordHandler(IAccountRepository repo)
     {
         _repo = repo;
     }
     
     public async Task<ValidateEmailAndPasswordResult> Handle(ValidateEmailAndPasswordRequest request, CancellationToken cancellationToken)
     {
-        var account = (await _repo.GetAppUserByEmail(request.Email)).SingleOrDefault();
+        var account = (await _repo.GetAppUserByEmail(request.Email));
         if (account == null)
         {
             return new ValidateEmailAndPasswordResult(false,0 ,0);
