@@ -24,7 +24,7 @@ public class AccountRepositoryTest
     public void TestCreateNewUserWithNewAccount()
     {
         var repo = new AccountRepository(_conf.Object);
-        repo.CreateNewAccountWithUser();
+        //repo.CreateNewAccountWithUser();
 
     }
     

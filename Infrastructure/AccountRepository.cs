@@ -1,9 +1,8 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using Dapper;
+﻿using Dapper;
 using Microsoft.Extensions.Configuration;
 using Application.Interfaces;
 using Npgsql;
+
 
 namespace Infrastructure;
 
@@ -18,18 +17,19 @@ public class AccountRepository : IAccountRepository, IDisposable
         _sql = a;
     }
 
-    public void CreateNewAccountWithUser()
+    public CreateAccountWithUserReturn CreateNewAccountWithUser(string firstName, string lastName, string email, string password)
     {
         using (var connection = _sql)
         {
-            var password = Convert.ToBase64String(SHA256.HashData(Encoding.ASCII.GetBytes("plainText")));
-            var accountId = connection.ExecuteScalar<int>("insert into accounts (accountname) VALUES ('test again') RETURNING accountid;");
+            var accountSql = $"insert into accounts (accountname) VALUES ('test again') RETURNING accountid;";
+            var accountId = connection.ExecuteScalar<int>(accountSql);
+            
             var param = new Dictionary<string, object>
             {
                 {"accountid", accountId},
-                {"firstname", "tanner"},
-                {"lastname", "kirk"},
-                {"email", "tanner@gmail.com"},
+                {"firstname", firstName},
+                {"lastname", lastName},
+                {"email", email},
                 {"hashedpassword", password}
             };
             var sql =
@@ -37,11 +37,23 @@ public class AccountRepository : IAccountRepository, IDisposable
                 VALUES (@accountid, @firstname, @lastname, @email, @hashedpassword ) RETURNING userid;";
             var userId = connection.ExecuteScalar<int>(sql,param);
             
-            
+            return new CreateAccountWithUserReturn
+            {
+                UserId = userId,
+                AccountId = accountId
+            };
+
         }
     }
+
     
     public void Dispose()
     {
+    }
+
+     public class CreateAccountWithUserReturn
+    {
+        public int UserId { get; init; }
+        public int AccountId { get; init; }
     }
 }
