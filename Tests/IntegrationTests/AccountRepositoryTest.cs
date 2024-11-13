@@ -1,6 +1,10 @@
-﻿using Infrastructure;
+﻿using System.Data;
+using Dapper;
+using Domain;
+using Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using Npgsql;
 using Tests.IntegrationTests.Common;
 
 
@@ -24,8 +28,28 @@ public class AccountRepositoryTest
     public void TestCreateNewUserWithNewAccount()
     {
         var repo = new AccountRepository(_conf.Object);
-        //repo.CreateNewAccountWithUser();
+        var fakeEmail = new Random().Next(1000,99999).ToString();
+        fakeEmail = $"{fakeEmail}@gmail.com";
+        var emailQuery = repo.GetAppUserByEmail(fakeEmail).Result;
+        Assert.IsNull(emailQuery);
 
+        var accountResult = repo.CreateNewAccountWithUser("tanner", "kirk", fakeEmail, "fakePassword").Result;
+        Assert.IsNotNull(accountResult);
+        
+        emailQuery = repo.GetAppUserByEmail(fakeEmail).Result;
+        Assert.IsNotNull(emailQuery);
+        
+        Assert.AreEqual(accountResult.AccountId, emailQuery.AccountId);
+        Assert.AreEqual(accountResult.UserId, emailQuery.UserId);
+        Assert.AreEqual("tanner", emailQuery.FirstName);
+        Assert.AreEqual("kirk", emailQuery.LastName);
+        Assert.AreEqual("fakePassword", emailQuery.HashedPassword);
+        Assert.AreEqual(fakeEmail, emailQuery.Email);
+        
+        //delete records
+        var sql = new NpgsqlConnection(_conf.Object.GetConnectionString("postgresqlConnection"));
+        sql.Execute($"delete from appusers where userid = {emailQuery.UserId}");
+        sql.Execute($"delete from accounts where accountid = {emailQuery.AccountId}");
     }
     
 }
