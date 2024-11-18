@@ -1,6 +1,4 @@
-﻿using System.Data;
-using Dapper;
-using Domain;
+﻿using Dapper;
 using Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -45,11 +43,27 @@ public class AccountRepositoryTest
         Assert.AreEqual("kirk", emailQuery.LastName);
         Assert.AreEqual("fakePassword", emailQuery.HashedPassword);
         Assert.AreEqual(fakeEmail, emailQuery.Email);
-        
-        //delete records
-        var sql = new NpgsqlConnection(_conf.Object.GetConnectionString("postgresqlConnection"));
-        sql.Execute($"delete from appusers where userid = {emailQuery.UserId}");
-        sql.Execute($"delete from accounts where accountid = {emailQuery.AccountId}");
+
+        AccountRepositoryTestHelpers.DeleteAccount(emailQuery.AccountId);
     }
-    
 }
+
+public static class AccountRepositoryTestHelpers
+{
+    public static int CreateAccount()
+    {
+        var sql = new NpgsqlConnection(StaticValues.DatabaseConnection);
+        return sql.ExecuteScalar<int>("insert into accounts (accountname) VALUES ('test again') RETURNING accountid;");
+    }
+
+    public static void DeleteAccount(int accountId)
+    {
+        //delete records
+        var sql = new NpgsqlConnection(StaticValues.DatabaseConnection);
+        sql.Execute($"delete from subcategories where accountid = {accountId}");
+        sql.Execute($"delete from categories where accountid = {accountId}");
+        sql.Execute($"delete from appusers where accountid = {accountId}");
+        sql.Execute($"delete from accounts where accountid = {accountId}");
+    }
+}
+
