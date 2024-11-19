@@ -9,14 +9,9 @@ using Npgsql;
 
 namespace Infrastructure;
 
-public class AccountRepository : IAccountRepository, IDisposable
+public class AccountRepository(IConfiguration config) : IAccountRepository, IDisposable
 {
-    private readonly NpgsqlConnection _sql;
-
-    public AccountRepository(IConfiguration config)
-    {
-        _sql = new NpgsqlConnection(config.GetConnectionString("postgresqlConnection"));
-    }
+    private readonly NpgsqlConnection _sql = new(config.GetConnectionString("postgresqlConnection"));
 
     public async Task<CreateAccountWithUserReturn> CreateNewAccountWithUser(string firstName, string lastName, string email, string password)
     {

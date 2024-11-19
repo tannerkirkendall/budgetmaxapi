@@ -1,6 +1,8 @@
-﻿using Infrastructure;
+﻿using Dapper;
+using Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using Npgsql;
 using Tests.IntegrationTests.Common;
 
 namespace Tests.IntegrationTests;
@@ -35,5 +37,20 @@ public class CategoryRepositoryTests
 
 
         AccountRepositoryTestHelpers.DeleteAccount(accountId);
+    }
+}
+
+public static class CategoryRepositoryTestsHelpers
+{
+    public static int CreateCategory(int accountId, string categoryName)
+    {
+        var sql = new NpgsqlConnection(StaticValues.DatabaseConnection);
+        return sql.ExecuteScalar<int>($"insert into categories (accountid, categoryname) VALUES ({accountId}, '{categoryName}') RETURNING categoryid;");
+    }
+    
+    public static int CreateSubCategory(int accountId, int categoryId, string subCategoryName)
+    {
+        var sql = new NpgsqlConnection(StaticValues.DatabaseConnection);
+        return sql.ExecuteScalar<int>($"insert into subcategories (accountid, categoryid, subcategoryname) VALUES ({accountId}, {categoryId}, '{subCategoryName}') RETURNING subcategoryid;");
     }
 }

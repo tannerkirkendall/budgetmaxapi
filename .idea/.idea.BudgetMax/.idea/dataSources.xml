@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="budget-max@db-postgresql-nyc1-71521-do-user-11258527-0.e.db.ondigitalocean.com" uuid="66b5c289-413c-4e0d-94f6-b20b27c60591">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://db-postgresql-nyc1-71521-do-user-11258527-0.e.db.ondigitalocean.com:25060/budget-max?password=AVNS_lbvWzmjTdyLmgDA-cxF&amp;sslmode=require&amp;user=doadmin</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+  </component>
+</project>

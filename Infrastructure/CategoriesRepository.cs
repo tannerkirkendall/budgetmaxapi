@@ -5,13 +5,9 @@ using Npgsql;
 
 namespace Infrastructure;
 
-public class CategoriesRepository : IDisposable
+public class CategoriesRepository(IConfiguration config) : IDisposable
 {
-    private readonly NpgsqlConnection _sql;
-    public CategoriesRepository(IConfiguration config)
-    {
-        _sql = new NpgsqlConnection(config.GetConnectionString("postgresqlConnection"));
-    }
+    private readonly NpgsqlConnection _sql = new(config.GetConnectionString("postgresqlConnection"));
 
     public async Task<int> CreateNewCategory(int accountId, string categoryName)
     {
