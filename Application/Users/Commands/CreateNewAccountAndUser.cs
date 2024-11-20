@@ -4,25 +4,24 @@ using MediatR;
 
 namespace Application.Users.Commands;
 
-public class CreateNewAccountAndUserHandler : IRequestHandler<CreateNewAccountAndUserCommand, CreateNewAccountAndUserResult>
+public class CreateNewAccountAndUserHandler(
+    IAccountRepository accountRepository,
+    ICategoriesRepository categoriesRepository)
+    : IRequestHandler<CreateNewAccountAndUserCommand, CreateNewAccountAndUserResult>
 {
-    private readonly IAccountRepository _accountRepository;
 
-    public CreateNewAccountAndUserHandler(IAccountRepository accountRepository)
-    {
-        _accountRepository = accountRepository;
-    }
-    
+
     public async Task<CreateNewAccountAndUserResult> Handle(CreateNewAccountAndUserCommand request, CancellationToken cancellationToken)
     {
 
-        var user = await _accountRepository.GetAppUserByEmail(request.Email);
+        var user = await accountRepository.GetAppUserByEmail(request.Email);
 
         if (user == null)
         {
             var hashedPassword = request.Password.ToHashedBase64String();
-            var a = await _accountRepository.CreateNewAccountWithUser(request.FirstName, request.LastName,
+            var a = await accountRepository.CreateNewAccountWithUser(request.FirstName, request.LastName,
                 request.Email, hashedPassword);
+            await SetupCategories(a.AccountId);
         }
         else
         {
@@ -34,6 +33,22 @@ public class CreateNewAccountAndUserHandler : IRequestHandler<CreateNewAccountAn
 
 
         return new CreateNewAccountAndUserResult();
+    }
+
+    private async Task SetupCategories(int accountId)
+    {
+        var catId = await categoriesRepository.CreateNewCategory(accountId, "Bills");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Gas");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Phone");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Internet");
+        
+        catId = await categoriesRepository.CreateNewCategory(accountId, "Income");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Paycheck");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Interest");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Free Parking");
+        
+        catId = await categoriesRepository.CreateNewCategory(accountId, "Home");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Maintenance");
     }
 
 
