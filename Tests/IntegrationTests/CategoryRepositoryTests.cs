@@ -31,10 +31,18 @@ public class CategoryRepositoryTests
         var categoryId = catRepo.CreateNewCategory(accountId, fakeCategory).Result;
         Assert.IsTrue(categoryId > 0);
         
+        var category = catRepo.GetCategories(accountId).Result.ToList();
+        Assert.IsNotNull(category);
+        Assert.AreEqual(fakeCategory, category.First().CategoryName);
+        
         var fakeSubCategory = new Random().Next(1000,99999).ToString();
         var subCatId = catRepo.CreateNewSubCategory(accountId, categoryId, fakeSubCategory).Result;
         Assert.IsTrue(subCatId > 0);
 
+        var subCategory = catRepo.GetSubCategories(accountId).Result.ToList();
+        Assert.IsNotNull(subCategory);
+        Assert.AreEqual(fakeSubCategory, subCategory.First().SubCategoryName);
+        Assert.AreEqual(categoryId, subCategory.First().CategoryId);
 
         AccountRepositoryTestHelpers.DeleteAccount(accountId);
     }

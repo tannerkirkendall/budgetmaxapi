@@ -1,14 +1,14 @@
 ﻿using Application.Interfaces;
 using MediatR;
 
-namespace Application.HomePage.Queries.Categories;
+namespace Application.HomePage.Categories.Queries;
 
 public class GetCategoriesAndSubCategoriesHandler : IRequestHandler<GetCategoriesAndSubCategoriesRequest, GetCategoriesAndSubCategoriesResult>
 {
-    private readonly IRepository _repo;
+    private readonly ICategoriesRepository _repo;
     private readonly ICurrentUserService _userService;
 
-    public GetCategoriesAndSubCategoriesHandler(IRepository repo, ICurrentUserService userService)
+    public GetCategoriesAndSubCategoriesHandler(ICategoriesRepository repo, ICurrentUserService userService)
     {
         _repo = repo;
         _userService = userService;
@@ -16,8 +16,8 @@ public class GetCategoriesAndSubCategoriesHandler : IRequestHandler<GetCategorie
     
     public async Task<GetCategoriesAndSubCategoriesResult> Handle(GetCategoriesAndSubCategoriesRequest request, CancellationToken cancellationToken)
     {
-        var categories = await _repo.GetCategoriesByAccountId(_userService.AccountId);
-        var subCategories = await _repo.GetSubCategoriesByAccountId(_userService.AccountId);
+        var categories = await _repo.GetCategories(_userService.AccountId);
+        var subCategories = await _repo.GetSubCategories(_userService.AccountId);
         var subCategoriesList = subCategories.ToList();
 
         var returnObject = new GetCategoriesAndSubCategoriesResult();
