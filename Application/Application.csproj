@@ -15,5 +15,9 @@
       <ProjectReference Include="..\Domain\Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="HomePage\Transactions\" />
+    </ItemGroup>
+
 
 </Project>
