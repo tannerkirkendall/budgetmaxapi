@@ -1,15 +1,16 @@
 using System.Data;
+using Application.Interfaces;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
 namespace Infrastructure;
 
-public class TransactionRepository(IConfiguration config) : IDisposable
+public class TransactionRepository(IConfiguration config) : ITransactionRepository, IDisposable
 {
     private readonly NpgsqlConnection _sql = new(config.GetConnectionString("postgresqlConnection"));
 
-    public async Task<int> SaveNewTransaction(int accountId, string bankaccount, DateTime transactionDate, Decimal amount, 
+    public async Task<int> SaveNewTransaction(int accountId, string bankaccount, DateTime transactionDate, double amount, 
         int subCategoryId, string transactionDescription)
     {
         Open();
