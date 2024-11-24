@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Data;
 using Application.Common.Interfaces;
 using Dapper;
+using Domain;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
@@ -27,6 +29,16 @@ public class TransactionRepository(IConfiguration config) : ITransactionReposito
         var sql = @"insert into transactions (accountid, bankaccount, transactiondate, amount, subcategoryid, transactiondescription)
             values (@accountid, @bankaccount, @transactiondate, @amount, @subcategoryid, @transactiondescription) RETURNING transactionid;";
         return await _sql.ExecuteScalarAsync<int>(sql,param);
+    }
+
+    public async Task<IEnumerable<Transaction>> GetTransactionsByAccountId(int accountId)
+    {
+        Open();
+        var param = new Dictionary<string, object> {{"AccountId", accountId}};
+        var sql = @"select transactionid, accountid, bankaccount, transactiondate, amount, subcategoryid, transactiondescription 
+            from transactions where accountid = @accountId;";
+        var result = await _sql.QueryAsync<Transaction>(sql, param);
+        return result;
     }
     
     public void Dispose()

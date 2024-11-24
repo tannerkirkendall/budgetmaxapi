@@ -19,7 +19,7 @@ public class CategoriesController : ApiControllerBase
     {
         try
         {
-            var returnValue = await Mediator.Send(new GetCategoriesAndSubCategoriesRequest());
+            var returnValue = await Mediator.Send(new GetCategoriesAndSubCategoriesQuery());
             return Ok(returnValue);
         }
         catch (Exception e)
