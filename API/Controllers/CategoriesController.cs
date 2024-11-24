@@ -1,4 +1,4 @@
-using Application.HomePage.Categories.Queries;
+using Application.UseCases.HomePage.Categories.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;

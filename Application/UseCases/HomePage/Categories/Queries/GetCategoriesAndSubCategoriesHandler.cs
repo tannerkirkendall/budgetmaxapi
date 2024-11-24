@@ -1,7 +1,7 @@
-﻿using Application.Interfaces;
+﻿using Application.Common.Interfaces;
 using MediatR;
 
-namespace Application.HomePage.Categories.Queries;
+namespace Application.UseCases.HomePage.Categories.Queries;
 
 public class GetCategoriesAndSubCategoriesHandler : IRequestHandler<GetCategoriesAndSubCategoriesRequest, GetCategoriesAndSubCategoriesResult>
 {

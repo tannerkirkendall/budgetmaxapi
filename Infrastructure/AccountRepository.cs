@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using Dapper;
 using Microsoft.Extensions.Configuration;
-using Application.Interfaces;
+using Application.Common.Interfaces;
 using Domain;
 using Domain.DTO;
 using Npgsql;

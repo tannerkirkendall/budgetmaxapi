@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Security.Cryptography;
-using Application.Authentication.Queries;
+using Application.UseCases.Authentication.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;

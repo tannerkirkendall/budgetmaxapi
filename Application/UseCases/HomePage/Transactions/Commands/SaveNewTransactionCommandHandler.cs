@@ -1,7 +1,7 @@
-using Application.Interfaces;
+using Application.Common.Interfaces;
 using MediatR;
 
-namespace Application.HomePage.Transactions.Commands;
+namespace Application.UseCases.HomePage.Transactions.Commands;
 
 public class SaveNewTransactionCommandHandler(
     ICurrentUserService currentUserService,

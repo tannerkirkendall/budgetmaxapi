@@ -1,7 +1,7 @@
 ﻿using Domain;
 using Domain.DTO;
 
-namespace Application.Interfaces;
+namespace Application.Common.Interfaces;
 
 public interface IAccountRepository
 {

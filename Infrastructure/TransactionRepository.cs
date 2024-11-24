@@ -1,5 +1,5 @@
 using System.Data;
-using Application.Interfaces;
+using Application.Common.Interfaces;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Npgsql;

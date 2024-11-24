@@ -1,4 +1,4 @@
-﻿using Application.HomePage.Transactions.Commands;
+﻿using Application.UseCases.HomePage.Transactions.Commands;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -6,15 +6,8 @@ namespace API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 
-public class TransactionsController : ApiControllerBase
+public class TransactionsController(ILogger<CategoriesController> logger) : ApiControllerBase
 {
-    private readonly ILogger<CategoriesController> _logger;
-
-    public TransactionsController(ILogger<CategoriesController> logger)
-    {
-        _logger = logger;
-    }
-
     [HttpPost]
     public async Task<IActionResult> SaveTransaction([FromBody] SaveNewTransactionCommand command)
     {
@@ -25,7 +18,7 @@ public class TransactionsController : ApiControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e.Message);
+            logger.LogError(e.Message);
             return BadRequest(e);
         }
     }

@@ -1,6 +1,6 @@
-using Application.Interfaces;
+using Application.Common.Interfaces;
 
-namespace Application.HomePage.Categories.Commands;
+namespace Application.UseCases.HomePage.Categories.Commands;
 
 public class SetupBasicCategoriesCommandHandler(
     ICategoriesRepository categoriesRepository,

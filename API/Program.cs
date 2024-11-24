@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using API;
 using Application;
-using Application.Interfaces;
+using Application.Common.Interfaces;
 using Infrastructure;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;

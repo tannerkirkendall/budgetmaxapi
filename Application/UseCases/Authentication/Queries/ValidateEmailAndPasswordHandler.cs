@@ -1,8 +1,8 @@
-﻿using Application.Helpers;
-using Application.Interfaces;
+﻿using Application.Common.Helpers;
+using Application.Common.Interfaces;
 using MediatR;
 
-namespace Application.Authentication.Queries;
+namespace Application.UseCases.Authentication.Queries;
 
 public class ValidateEmailAndPasswordHandler: IRequestHandler<ValidateEmailAndPasswordRequest, ValidateEmailAndPasswordResult>
 {
