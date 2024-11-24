@@ -1,5 +1,4 @@
-﻿using Application.HomePage.Queries.Transactions;
-using Application.HomePage.Transactions.Commands;
+﻿using Application.HomePage.Transactions.Commands;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -22,36 +21,6 @@ public class TransactionsController : ApiControllerBase
         try
         {
             var returnValue = await Mediator.Send(command);
-            return Ok(returnValue);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e.Message);
-            return BadRequest(e);
-        }
-    }
-
-    [HttpGet("all")]
-    public async Task<IActionResult> GetTransactions()
-    {
-        try
-        {
-            var returnValue = await Mediator.Send(new GetTransactionsRequest());
-            return Ok(returnValue);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e.Message);
-            return BadRequest(e);
-        }
-    }
-    
-    [HttpGet("summary")]
-    public async Task<IActionResult> GetSummary(int budgetHeaderId)
-    {
-        try
-        {
-            var returnValue = await Mediator.Send(new GetSummaryByBudgetHeaderId.Request(budgetHeaderId));
             return Ok(returnValue);
         }
         catch (Exception e)
