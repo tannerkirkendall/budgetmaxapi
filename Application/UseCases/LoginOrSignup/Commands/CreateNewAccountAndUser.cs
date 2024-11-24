@@ -2,7 +2,7 @@ using Application.Common.Helpers;
 using Application.Common.Interfaces;
 using MediatR;
 
-namespace Application.UseCases.Users.Commands;
+namespace Application.UseCases.LoginOrSignup.Commands;
 
 public class CreateNewAccountAndUserHandler(
     IAccountRepository accountRepository,

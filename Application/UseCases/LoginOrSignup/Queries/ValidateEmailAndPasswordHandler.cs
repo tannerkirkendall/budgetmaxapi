@@ -2,7 +2,7 @@
 using Application.Common.Interfaces;
 using MediatR;
 
-namespace Application.UseCases.Authentication.Queries;
+namespace Application.UseCases.LoginOrSignup.Queries;
 
 public class ValidateEmailAndPasswordHandler: IRequestHandler<ValidateEmailAndPasswordRequest, ValidateEmailAndPasswordResult>
 {
