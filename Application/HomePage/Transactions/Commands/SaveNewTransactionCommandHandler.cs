@@ -13,7 +13,7 @@ public class SaveNewTransactionCommandHandler(
         var accountId = currentUserService.AccountId;
         var result = await transactionRepository.SaveNewTransaction(accountId, request.BankAccountName, 
             request.Date, request.Amount ,request.SubCategoryId , request.TransactionDescription);
-        return new SaveNewTransactionResult();
+        return new SaveNewTransactionResult{TransactionId = result};
     }
 }
 
@@ -21,7 +21,7 @@ public class SaveNewTransactionCommand : IRequest<SaveNewTransactionResult>
 {
     public string BankAccountName { get; init; } = "";
     public DateTime Date { get; init; }
-    public double Amount { get; init; }
+    public Decimal Amount { get; init; }
     public int SubCategoryId { get; init; }
     public string TransactionDescription { get; init; } = "";
 
@@ -29,5 +29,5 @@ public class SaveNewTransactionCommand : IRequest<SaveNewTransactionResult>
 
 public class SaveNewTransactionResult
 {
-    
+    public int TransactionId { get; init; }
 }

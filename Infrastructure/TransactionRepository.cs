@@ -10,7 +10,7 @@ public class TransactionRepository(IConfiguration config) : ITransactionReposito
 {
     private readonly NpgsqlConnection _sql = new(config.GetConnectionString("postgresqlConnection"));
 
-    public async Task<int> SaveNewTransaction(int accountId, string bankaccount, DateTime transactionDate, double amount, 
+    public async Task<int> SaveNewTransaction(int accountId, string bankaccount, DateTime transactionDate, Decimal amount, 
         int subCategoryId, string transactionDescription)
     {
         Open();

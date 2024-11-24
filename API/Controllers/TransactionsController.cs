@@ -1,4 +1,5 @@
 ﻿using Application.HomePage.Queries.Transactions;
+using Application.HomePage.Transactions.Commands;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -15,10 +16,20 @@ public class TransactionsController : ApiControllerBase
         _logger = logger;
     }
 
-    // public async Task<IActionResult> SaveTransaction()
-    // {
-    //     
-    // }
+    [HttpPost]
+    public async Task<IActionResult> SaveTransaction([FromBody] SaveNewTransactionCommand command)
+    {
+        try
+        {
+            var returnValue = await Mediator.Send(command);
+            return Ok(returnValue);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
+            return BadRequest(e);
+        }
+    }
 
     [HttpGet("all")]
     public async Task<IActionResult> GetTransactions()
