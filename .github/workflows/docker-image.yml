@@ -1,12 +1,10 @@
-name: Docker Image CI
+ name: Docker Image CI
 
 on:
   push:
     branches: [ "trunk" ]
   pull_request:
     branches: [ "trunk" ]
-env:
-  version: $(date +%s)
 
 jobs:
 
@@ -15,15 +13,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Generate Version
+      id: version_number
+      run: echo "num=$(date +%s)" >> $GITHUB_OUTPUT
+
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag tannerk/budgetmax-api:${{ env.version }}
+      run: docker build . --file Dockerfile --tag tannerk/budgetmax-api:${{ steps.version_number.outputs.num }}
 
     - name: Login to Docker
       run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u tannerk --password-stdin
 
     - name: Push to Docker
-      run: docker push tannerk/budgetmax-api:${{ env.version }}
+      run: docker push tannerk/budgetmax-api:${{ steps.version_number.outputs.num }}
 
       
    
