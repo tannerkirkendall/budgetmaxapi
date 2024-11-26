@@ -25,7 +25,10 @@ jobs:
       run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u tannerk --password-stdin
 
     - name: Push to Docker
-      run: docker push tannerk/budgetmax-api:${{ steps.version_number.outputs.num }} --all-tags
+      run: docker push tannerk/budgetmax-api:${{ steps.version_number.outputs.num }}
+
+    - name: Push to Docker
+      run: docker push tannerk/budgetmax-api:lateset
 
       
    
