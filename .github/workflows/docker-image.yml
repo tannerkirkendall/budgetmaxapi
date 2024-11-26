@@ -5,6 +5,8 @@ on:
     branches: [ "trunk" ]
   pull_request:
     branches: [ "trunk" ]
+env:
+  version: $(date +%s)
 
 jobs:
 
@@ -15,13 +17,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag tannerk/budgetmax-api:$(date +%s)
+      run: docker build . --file Dockerfile --tag tannerk/budgetmax-api:${{ env.mascot }}
 
     - name: Login to Docker
-      run: docker login -u tannerk -p ${{ secrets.DOCKER_PASSWORD }}
+      run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u tannerk --password-stdin
 
     - name: Push to Docker
-      run: docker push tannerk/budgetmax-api:$(date +%s)
+      run: docker push tannerk/budgetmax-api:${{ env.mascot }}
 
       
    
