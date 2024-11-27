@@ -8,24 +8,21 @@ public class GetCategoriesAndSubCategoriesHandler(ICategoriesRepository repo, IC
 {
     public async Task<GetCategoriesAndSubCategoriesResult> Handle(GetCategoriesAndSubCategoriesQuery query, CancellationToken cancellationToken)
     {
-        var categories = await repo.GetCategories(userService.AccountId);
+        var categories = (await repo.GetCategories(userService.AccountId)).ToList();
         var subCategories = await repo.GetSubCategories(userService.AccountId);
         var subCategoriesList = subCategories.ToList();
 
         var returnObject = new GetCategoriesAndSubCategoriesResult();
-        foreach (var c in categories)
-        {
-            var thisSubCats = subCategoriesList
-                .Where(x => x.CategoryId == c.CategoryId)
-                .Select(sc => new GetCategoriesAndSubCategoriesResult.SubCategory {Id = sc.SubCategoryId, Name = sc.SubCategoryName}).ToList();
 
-            var cat = new GetCategoriesAndSubCategoriesResult.Category
+        foreach (var subCategory in subCategoriesList)
+        {
+            returnObject.Categories.Add(new GetCategoriesAndSubCategoriesResult.SubCategory
             {
-                Id = c.CategoryId,
-                Name = c.CategoryName,
-                SubCategories = thisSubCats
-            };
-            returnObject.Categories.Add(cat);
+                SubCategoryId = subCategory.SubCategoryId,
+                SubCategoryName = subCategory.SubCategoryName,
+                CategoryName = categories.First(x => x.CategoryId == subCategory.CategoryId).CategoryName,
+                CategoryId = subCategory.CategoryId
+            });
         }
         
         return returnObject;
@@ -38,16 +35,13 @@ public class GetCategoriesAndSubCategoriesQuery : IRequest<GetCategoriesAndSubCa
 
 public class GetCategoriesAndSubCategoriesResult
 {
-    public List<Category> Categories { get; set; } = new();
-    public class Category
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = "";
-        public List<SubCategory> SubCategories { get; set; } = new();
-    }
+    public List<SubCategory> Categories { get; set; } = new();
     public class SubCategory
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = "";
+        public int SubCategoryId { get; set; }
+        public string SubCategoryName { get; set; } = "";
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; } = "";
     }
+
 }
