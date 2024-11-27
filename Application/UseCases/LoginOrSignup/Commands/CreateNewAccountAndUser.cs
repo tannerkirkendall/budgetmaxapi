@@ -37,18 +37,40 @@ public class CreateNewAccountAndUserHandler(
 
     private async Task SetupCategories(int accountId)
     {
-        var catId = await categoriesRepository.CreateNewCategory(accountId, "Bills");
+        var catId = await categoriesRepository.CreateNewCategory(accountId, "Essentials");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Groceries");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Medical");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Piper");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Clothes");
         await categoriesRepository.CreateNewSubCategory(accountId, catId, "Gas");
-        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Phone");
-        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Internet");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Home Maintenance");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Babysitting");
+
+        catId = await categoriesRepository.CreateNewCategory(accountId, "Bills");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Tithe");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Mortgage");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Health Insurance");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Internet/Electric");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Cellphones");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Car Insurance");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Water");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Natural Gas");
         
         catId = await categoriesRepository.CreateNewCategory(accountId, "Income");
         await categoriesRepository.CreateNewSubCategory(accountId, catId, "Paycheck");
         await categoriesRepository.CreateNewSubCategory(accountId, catId, "Interest");
         await categoriesRepository.CreateNewSubCategory(accountId, catId, "Free Parking");
         
-        catId = await categoriesRepository.CreateNewCategory(accountId, "Home");
-        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Maintenance");
+        catId = await categoriesRepository.CreateNewCategory(accountId, "Non-essentials");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Gift");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Eat Out");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Home Merchandise");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Amazon");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Misc Spending");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Extra Giving");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Subscription Misc");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Date Night");
+        await categoriesRepository.CreateNewSubCategory(accountId, catId, "Entertainment");
     }
 
 
