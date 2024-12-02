@@ -28,7 +28,7 @@ public class GetTransactionSummaryQueryHandler(ICurrentUserService userService, 
                     Category = categories.First(x => x.CategoryId == subCategoryLookup.CategoryId).CategoryName,
                     CategoryId = subCategoryLookup.CategoryId,
                     BudgetAmount = 0,
-                    BudgetRemaining = 0 - transaction.Amount,
+                    BudgetRemaining = 0-transaction.Amount,
                     SubCategoriesSummary =
                     [
                         new()
@@ -48,6 +48,7 @@ public class GetTransactionSummaryQueryHandler(ICurrentUserService userService, 
                 var subCategoryExists = categoryExists.SubCategoriesSummary.SingleOrDefault(x => x.SubCategoryId == transaction.SubCategoryId);
                 if (subCategoryExists == null)
                 {
+                    categoryExists.BudgetRemaining += (-transaction.Amount);
                     categoryExists.SubCategoriesSummary.Add(new GetTransactionSummaryResult.SubCategorySummary()
                     {
                         SubCategory = subCategoryLookup.SubCategoryName,
@@ -59,6 +60,7 @@ public class GetTransactionSummaryQueryHandler(ICurrentUserService userService, 
                 }
                 else
                 {
+                    categoryExists.BudgetRemaining += (-transaction.Amount);
                     subCategoryExists.AmountSpent += transaction.Amount;
                 }
             }
