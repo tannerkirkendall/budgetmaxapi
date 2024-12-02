@@ -1,33 +1,33 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=78bd340b_002D20fa_002D4688_002Db17d_002D665d681b1b3e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestCanAddNewTransaction" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net8.0::Tests.IntegrationTests.TransactionsRepositoryTests.TestCanAddNewTransaction&lt;/TestId&gt;
-    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net8.0::Tests.IntegrationTests.CategoryRepositoryTests.TestCanAddNewSubCategory&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=78bd340b_002D20fa_002D4688_002Db17d_002D665d681b1b3e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestCanAddNewTransaction" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net8.0::Tests.IntegrationTests.TransactionsRepositoryTests.TestCanAddNewTransaction&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net8.0::Tests.IntegrationTests.CategoryRepositoryTests.TestCanAddNewSubCategory&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7d373ca6_002D9169_002D4335_002D9a6a_002D080b2439e92a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AccountRepositoryTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net6.0::Tests.IntegrationTests.AccountRepositoryTest&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7d373ca6_002D9169_002D4335_002D9a6a_002D080b2439e92a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AccountRepositoryTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net6.0::Tests.IntegrationTests.AccountRepositoryTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=944135a1_002D0932_002D4ad2_002Dbca4_002Dbfcd69c145d8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestCanAddNewSubCategory" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net8.0::Tests.IntegrationTests.CategoryRepositoryTests.TestCanAddNewSubCategory&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=944135a1_002D0932_002D4ad2_002Dbca4_002Dbfcd69c145d8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestCanAddNewSubCategory" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net8.0::Tests.IntegrationTests.CategoryRepositoryTests.TestCanAddNewSubCategory&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e04b3ea4_002Dbe49_002D4d12_002Dbfaf_002D84cfb216dc75/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestCreateNewUserWithNewAccount" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net6.0::Tests.IntegrationTests.AccountRepositoryTest.TestCreateNewUserWithNewAccount&lt;/TestId&gt;
-    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net8.0::Tests.IntegrationTests.AccountRepositoryTest.TestCreateNewUserWithNewAccount&lt;/TestId&gt;
-    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net8.0::Tests.IntegrationTests.CategoryRepositoryTests.TestCanAddNewCategory&lt;/TestId&gt;
-    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net8.0::Tests.IntegrationTests.CategoryRepositoryTests.TestCanAddNewSubCategory&lt;/TestId&gt;
-    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net8.0::Tests.IntegrationTests.TransactionsRepositoryTests.TestCanAddNewTransaction&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e04b3ea4_002Dbe49_002D4d12_002Dbfaf_002D84cfb216dc75/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestCreateNewUserWithNewAccount" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net6.0::Tests.IntegrationTests.AccountRepositoryTest.TestCreateNewUserWithNewAccount&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net8.0::Tests.IntegrationTests.AccountRepositoryTest.TestCreateNewUserWithNewAccount&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net8.0::Tests.IntegrationTests.CategoryRepositoryTests.TestCanAddNewCategory&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net8.0::Tests.IntegrationTests.CategoryRepositoryTests.TestCanAddNewSubCategory&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net8.0::Tests.IntegrationTests.TransactionsRepositoryTests.TestCanAddNewTransaction&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=faf30796_002D261d_002D4f17_002D93af_002D724d457db5ab/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="True" ContinuousTestingMode="1" Name="TestGetSummary" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net6.0::Tests.TestGetSummary&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=faf30796_002D261d_002D4f17_002D93af_002D724d457db5ab/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="True" ContinuousTestingMode="1" Name="TestGetSummary" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::6806D481-27DA-4FDA-974B-BFBC87FFBF77::net6.0::Tests.TestGetSummary&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=accountid/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=appusers/@EntryIndexedValue">True</s:Boolean>

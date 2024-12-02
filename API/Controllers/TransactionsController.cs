@@ -29,7 +29,7 @@ public class TransactionsController(ILogger<CategoriesController> logger) : ApiC
     {
         try
         {
-            var returnValue = await Mediator.Send(new GetTransactionsForAccountQuery());
+            var returnValue = await Mediator.Send(new GetTransactionSummaryQuery());
             return Ok(returnValue);
         }
         catch (Exception e)
