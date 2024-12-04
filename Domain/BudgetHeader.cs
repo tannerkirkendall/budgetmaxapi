@@ -2,8 +2,8 @@
 
 public class BudgetHeader
 {
-    public int BudgetHeaderId { get; set; }
-    public int AccountId { get; set; }
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
+    public int BudgetId { get; init; }
+    public int AccountId { get; init; }
+    public DateTime StartDate { get; init; }
+    public DateTime EndDate { get; init; }
 }

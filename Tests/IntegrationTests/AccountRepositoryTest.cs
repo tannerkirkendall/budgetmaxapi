@@ -60,6 +60,7 @@ public static class AccountRepositoryTestHelpers
     {
         //delete records
         var sql = new NpgsqlConnection(StaticValues.DatabaseConnection);
+        sql.Execute($"delete from budgetheader where accountid = {accountId}");
         sql.Execute($"delete from transactions where accountid = {accountId}");
         sql.Execute($"delete from subcategories where accountid = {accountId}");
         sql.Execute($"delete from categories where accountid = {accountId}");
