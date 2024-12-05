@@ -8,4 +8,5 @@ public interface ITransactionRepository
         int subCategoryId, string transactionDescription);
 
     Task<IEnumerable<Transaction>> GetTransactionsByAccountId(int accountId);
+    Task<IEnumerable<Transaction>> GetTransactionsByBudgetId(int accountId, int budgetId);
 }

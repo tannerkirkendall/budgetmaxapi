@@ -7,7 +7,7 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class CategoriesController(ILogger<CategoriesController> logger) : ApiControllerBase
 {
-    [HttpGet("all")]
+    [HttpGet]
     public async Task<IActionResult> GetCategories()
     {
         try

@@ -10,7 +10,17 @@ public class GetTransactionSummaryQueryHandler(ICurrentUserService userService, 
     public async Task<GetTransactionSummaryResult> Handle(GetTransactionSummaryQuery request, CancellationToken cancellationToken)
     {
         var accountId = userService.AccountId;
-        var transactions = await transactionRepository.GetTransactionsByAccountId(accountId);
+        
+        IEnumerable<Transaction> transactions;
+        if (request.BudgetId == null)
+        {
+            transactions = await transactionRepository.GetTransactionsByAccountId(accountId);
+        }
+        else
+        {
+            transactions = await transactionRepository.GetTransactionsByBudgetId(accountId, (int)request.BudgetId);
+        }
+        
         var categories = (await categoriesRepository.GetCategories(accountId)).ToList();
         var subCategories = (await categoriesRepository.GetSubCategories(accountId)).ToList();
         
@@ -79,7 +89,7 @@ public class GetTransactionSummaryQueryHandler(ICurrentUserService userService, 
 
 public class GetTransactionSummaryQuery : IRequest<GetTransactionSummaryResult>
 {
-    
+    public int? BudgetId { get; set; }
 }
 
 

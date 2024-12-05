@@ -41,6 +41,25 @@ public class TransactionRepository(IConfiguration config) : ITransactionReposito
         return result;
     }
     
+    public async Task<IEnumerable<Transaction>> GetTransactionsByBudgetId(int accountId, int budgetId)
+    {
+        Open();
+        var param = new Dictionary<string, object>
+        {
+            {"AccountId", accountId},
+            {"budgetId", budgetId}
+        };
+        var sql = @"select transactionid, t.accountid, bankaccount, transactiondate, amount, subcategoryid, transactiondescription
+                    from transactions t
+                    inner join budgetheader bh
+                    on t.transactiondate between bh.startdate and bh.enddate
+                    and t.accountid = bh.accountid
+                    where t.accountid = @accountId
+                    and budgetid = @budgetId;";
+        var result = await _sql.QueryAsync<Transaction>(sql, param);
+        return result;
+    }
+    
     public void Dispose()
     {
         _sql.Dispose();

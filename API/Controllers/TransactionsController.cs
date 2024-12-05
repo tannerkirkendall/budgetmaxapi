@@ -38,4 +38,20 @@ public class TransactionsController(ILogger<CategoriesController> logger) : ApiC
             return BadRequest(e);
         }
     }
+    
+    [HttpGet]
+    [Route("{budgetId}")]
+    public async Task<IActionResult> GetTransactions([FromRoute] int budgetId)
+    {
+        try
+        {
+            var returnValue = await Mediator.Send(new GetTransactionSummaryQuery{BudgetId = budgetId});
+            return Ok(returnValue);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e.Message);
+            return BadRequest(e);
+        }
+    }
 }
