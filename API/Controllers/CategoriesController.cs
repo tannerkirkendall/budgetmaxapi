@@ -5,15 +5,8 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CategoriesController : ApiControllerBase
+public class CategoriesController(ILogger<CategoriesController> logger) : ApiControllerBase
 {
-    private readonly ILogger<CategoriesController> _logger;
-
-    public CategoriesController(ILogger<CategoriesController> logger)
-    {
-        _logger = logger;
-    }
-
     [HttpGet("all")]
     public async Task<IActionResult> GetCategories()
     {
@@ -24,7 +17,7 @@ public class CategoriesController : ApiControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e.Message);
+            logger.LogError(e.Message);
             return BadRequest(e);
         }
     }
