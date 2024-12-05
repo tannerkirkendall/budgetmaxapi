@@ -6,7 +6,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class BudgetController (ILogger<CategoriesController> logger) : ApiControllerBase
+public class BudgetsController (ILogger<CategoriesController> logger) : ApiControllerBase
 {
     [HttpPost()]
     public async Task<IActionResult> AddBudget([FromBody] AddNewBudgetCommand command)

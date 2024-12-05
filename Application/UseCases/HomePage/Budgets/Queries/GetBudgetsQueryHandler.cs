@@ -15,8 +15,8 @@ public class GetBudgetsQueryHandler(ICurrentUserService userService, IBudgetRepo
             result.Budgets.Add(new GetBudgetsQueryResult.Budget
             {
                 BudgetId = b.BudgetId,
-                EndDate = b.EndDate,
-                StartDate = b.StartDate,
+                EndDate = b.EndDate.ToShortDateString(),
+                StartDate = b.StartDate.ToShortDateString(),
             });
         }
         result.Budgets = result.Budgets.OrderByDescending(b => b.StartDate).ToList();
@@ -35,7 +35,7 @@ public class GetBudgetsQueryResult
     public class Budget
     {
         public int BudgetId { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
     }
 }
