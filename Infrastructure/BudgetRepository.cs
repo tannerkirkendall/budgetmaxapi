@@ -26,6 +26,20 @@ public class BudgetRepository(IConfiguration config) : IDisposable, IBudgetRepos
         return await _sql.ExecuteScalarAsync<int>(sql, param);
     }
 
+    public async Task<int> AddBudgetDetail(int accountId, int budgetId, int subCategoryId, decimal amount)
+    {
+        Open();
+        var param = new Dictionary<string, object>
+        {
+            {"accountid", accountId},
+            {"budgetId", budgetId},
+            {"amount", amount},
+            {"subcategoryid", subCategoryId}
+        };
+        var sql = "insert into budgetdetail (budgetId, subCategoryId, amount, accountid) values (@budgetId, @subCategoryId, @amount, @accountid) returning budgetdetailid;";
+        return await _sql.ExecuteScalarAsync<int>(sql, param);
+    }
+
     public async Task<IEnumerable<BudgetHeader>> GetBudgets(int accountId)
     {
         Open();
