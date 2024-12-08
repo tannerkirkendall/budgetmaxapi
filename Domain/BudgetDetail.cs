@@ -2,7 +2,7 @@
 
 public class BudgetDetail
 {
-    public int BudgetDetailId { get; set; }
+    public int BudgetId { get; set; }
     public int AccountId { get; set; }
     public int BudgetHeaderId { get; set; }
     public int SubCategoryId { get; set; }
