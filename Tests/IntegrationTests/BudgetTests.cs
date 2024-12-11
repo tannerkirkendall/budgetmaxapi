@@ -41,7 +41,5 @@ public class BudgetTests
         Assert.AreEqual(DateTime.Parse("2024-09-28"), budgets[1].EndDate);
         
         AccountRepositoryTestHelpers.DeleteAccount(accountId);
-
-
     }
 }

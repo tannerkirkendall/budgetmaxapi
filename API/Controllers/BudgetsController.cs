@@ -8,7 +8,7 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class BudgetsController (ILogger<CategoriesController> logger) : ApiControllerBase
 {
-    [HttpPost()]
+    [HttpPost]
     public async Task<IActionResult> AddBudget([FromBody] AddNewBudgetCommand command)
     {
         try
@@ -23,12 +23,42 @@ public class BudgetsController (ILogger<CategoriesController> logger) : ApiContr
         }
     }
     
-    [HttpGet()]
+    [HttpGet]
     public async Task<IActionResult> GetBudgets()
     {
         try
         {
             var returnValue = await Mediator.Send(new GetBudgetsQuery());
+            return Ok(returnValue);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e.Message);
+            return BadRequest(e);
+        }
+    }
+    
+    [HttpPost("detail")]
+    public async Task<IActionResult> AddBudgetDetail([FromBody] AddNewBudgetDetailCommand command)
+    {
+        try
+        {
+            var returnValue = await Mediator.Send(command);
+            return Ok(returnValue);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e.Message);
+            return BadRequest(e);
+        }
+    }
+    
+    [HttpGet("detail/{budgetId}")]
+    public async Task<IActionResult> GetBudgetDetails([FromRoute] int budgetId)
+    {
+        try
+        {
+            var returnValue = await Mediator.Send(new GetBudgetDetailQuery(budgetId));
             return Ok(returnValue);
         }
         catch (Exception e)

@@ -8,7 +8,12 @@ public class AddNewBudgetDetailCommandHandler(ICurrentUserService userService, I
 {
     public async Task<AddNewBudgetDetailCommandResult> Handle(AddNewBudgetDetailCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var result = await budgetRepository.AddBudgetDetail(userService.AccountId, request.BudgeId, request.SubCategoryId, request.Amount);
+        
+        return new AddNewBudgetDetailCommandResult
+        {
+            BudgetDetailId = result
+        };
     }
 }
 

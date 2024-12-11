@@ -40,14 +40,15 @@ public class BudgetRepository(IConfiguration config) : IDisposable, IBudgetRepos
         return await _sql.ExecuteScalarAsync<int>(sql, param);
     }
     
-    public async Task<IEnumerable<BudgetDetail>> GetBudgetDetails(int accountId)
+    public async Task<IEnumerable<BudgetDetail>> GetBudgetDetails(int accountId, int budgetId)
     {
         Open();
         var param = new Dictionary<string, object>
         {
-            {"accountid", accountId}
+            {"accountid", accountId},
+            {"budgetId", budgetId}
         };
-        var sql = "select budgetId, subCategoryId, amount, accountid from budgetdetail where accountid = @accountid;";
+        var sql = "select budgetId, budgetdetailid, subCategoryId, amount, accountid from budgetdetail where accountid = @accountid and budgetId = @budgetId;";
         return await _sql.QueryAsync<BudgetDetail>(sql, param);
     }
 
